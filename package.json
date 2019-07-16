@@ -1,0 +1,11 @@
+{
+  "name": "doko-restsever-mock",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start:mock": "json-server --watch data.json -m middleware.js --port 3001"
+  },
+  "dependencies": {
+    "json-server": "^0.15.0"
+  }
+}
