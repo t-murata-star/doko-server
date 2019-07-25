@@ -2,7 +2,6 @@
     "userList": [
         {
             "id": 1,
-            "order": 1,
             "name": "テスト",
             "status": "本社外勤務",
             "destination": "テストテストテストテストテスト",
@@ -12,7 +11,6 @@
         },
         {
             "id": 2,
-            "order": 2,
             "name": "テストテスト",
             "status": "在席",
             "destination": "",
@@ -22,7 +20,6 @@
         },
         {
             "id": 3,
-            "order": 3,
             "name": "テストテストテスト",
             "status": "離席中",
             "destination": "",
