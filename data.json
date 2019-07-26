@@ -1,31 +1,31 @@
 {
-    "userList": [
-        {
-            "id": 1,
-            "name": "テスト",
-            "status": "本社外勤務",
-            "destination": "テストテストテストテストテスト",
-            "return": "7/20 16:00",
-            "update_at": "2019/07/10",
-            "message": "Hi there!"
-        },
-        {
-            "id": 2,
-            "name": "テストテスト",
-            "status": "在席",
-            "destination": "",
-            "return": "",
-            "update_at": "2019/07/10",
-            "message": "こんにちは！"
-        },
-        {
-            "id": 3,
-            "name": "テストテストテスト",
-            "status": "離席中",
-            "destination": "",
-            "return": "",
-            "update_at": "2019/07/10",
-            "message": ""
-        }
-    ]
+  "userList": [
+    {
+      "id": 1,
+      "name": "テスト",
+      "status": "本社外勤務",
+      "destination": "テストテストテストテストテスト",
+      "return": "7/20 16:00",
+      "updated_at": "2019-07-23T00:26:16.943Z",
+      "message": "Hi there!"
+    },
+    {
+      "id": 2,
+      "name": "テストテスト",
+      "status": "在席",
+      "destination": "",
+      "return": "",
+      "updated_at": "2019-07-24T00:26:16.943Z",
+      "message": "こんにちは！"
+    },
+    {
+      "id": 3,
+      "name": "テストテストテスト",
+      "status": "離席中",
+      "destination": "",
+      "return": "",
+      "updated_at": "2019-07-25T00:26:16.943Z",
+      "message": ""
+    }
+  ]
 }
