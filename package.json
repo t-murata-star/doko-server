@@ -1,5 +1,5 @@
 {
-  "name": "doko-restsever",
+  "name": "doko-rest-api-server",
   "version": "1.0.0",
   "author": "t-murata",
   "description": "行き先掲示板用RESTAPIサーバ",
