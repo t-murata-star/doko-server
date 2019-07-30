@@ -7,7 +7,6 @@
       "return": "13:00",
       "updated_at": "2019-07-29T16:54:57.969Z",
       "message": "Hi there!",
-      "isLeaving": false,
       "order": 1,
       "id": 1
     },
@@ -18,7 +17,6 @@
       "return": "NR",
       "updated_at": "2019-07-29T16:56:56.581Z",
       "message": "いってきます！",
-      "isLeaving": false,
       "order": 2,
       "id": 2
     },
@@ -29,7 +27,6 @@
       "return": "7/22",
       "updated_at": "2019-07-26T09:13:52.102Z",
       "message": "",
-      "isLeaving": false,
       "order": 3,
       "id": 3
     }
