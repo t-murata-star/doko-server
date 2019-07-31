@@ -5,7 +5,7 @@
   "description": "行き先掲示板用RESTAPIサーバ",
   "private": true,
   "scripts": {
-    "start": "cp DB.json DB.json.bak && json-server --watch DB.json -m middleware.js --port 3001 --host localhost"
+    "start": "cp DB.json DB.json.bak && json-server DB.json -m middleware.js --port 3001 --host localhost"
   },
   "dependencies": {
     "json-server": "^0.15.0"
