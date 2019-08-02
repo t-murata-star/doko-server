@@ -45,7 +45,7 @@ server.post('/auth/login', (req, res) => {
   //ログイン検証
   if (isAuth({ username, password }) === false) {
     const status = 401
-    const message = 'Incorrect username or password'
+    const message = 'Error in authorization'
     res.status(status).json({ status, message })
     return
   }
@@ -61,7 +61,7 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
   //認証ヘッダー形式検証
   if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
     const status = 401
-    const message = 'Error in authorization format'
+    const message = 'Error in authorization'
     res.status(status).json({ status, message })
     return
   }
@@ -79,7 +79,7 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
   } catch (err) {
     //失効している認証トークン
     const status = 401
-    const message = 'Error token is revoked'
+    const message = 'Error in authorization'
     res.status(status).json({ status, message })
   }
 })
