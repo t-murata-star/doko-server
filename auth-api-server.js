@@ -72,7 +72,7 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
     if (['POST', 'PUT'].includes(req.method)) {
       req.query = req.body
       req.query['updated_at'] = formatDate(new Date());
-    } else if (req.method === 'PATCH' && req.body['status'] === '退社') {
+    } else if (req.method === 'PATCH') {
       req.query = req.body
       req.query['updated_at'] = formatDate(new Date());
     }
