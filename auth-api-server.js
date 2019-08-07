@@ -72,7 +72,7 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
     if (['POST', 'PUT'].includes(req.method)) {
       req.query = req.body
       req.query['updated_at'] = formatDate(new Date());
-    } else if (req.method === 'PATCH') {
+    } else if (req.method === 'PATCH' && req.body.hasOwnProperty('order') === false) {
       req.query = req.body
       req.query['updated_at'] = formatDate(new Date());
     }
