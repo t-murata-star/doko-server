@@ -1,8 +1,8 @@
 {
-  "latestAppVersion": "1.0.3",
   "notification": {
     "targetIDs": [],
-    "content": ""
+    "content": "",
+    "latestAppVersion": "1.0.3"
   },
   "userList": [
     {
