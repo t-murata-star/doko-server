@@ -72,18 +72,23 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
     if (['POST', 'PUT'].includes(req.method)) {
       req.query = req.body
       req.query['updated_at'] = formatDate(new Date());
-    } else if (req.method === 'PATCH' && req.body.hasOwnProperty('order') === false) {
-      req.query = req.body
-      req.query['updated_at'] = formatDate(new Date());
+    } else if (req.method === 'PATCH') {
+      if (req.body.hasOwnProperty('heartbeat') === true) {
+        req.query = req.body
+        req.query['heartbeat'] = formatDate(new Date());
+      } else if (req.body.hasOwnProperty('order') === false) {
+        req.query = req.body
+        req.query['updated_at'] = formatDate(new Date());
+      }
     }
 
     next()
-  } catch (err) {
-    //失効している認証トークン
-    const status = 401
-    const message = 'Error in authorization'
-    res.status(status).json({ status, message })
-  }
+} catch (err) {
+  //失効している認証トークン
+  const status = 401
+  const message = 'Error in authorization'
+  res.status(status).json({ status, message })
+}
 })
 
 //認証機能付きのREST APIサーバ起動
