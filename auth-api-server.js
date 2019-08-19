@@ -76,17 +76,14 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
     res.status(status).json({ status, message })
   }
 
-  if (['/userList'].includes(req.baseUrl)) {
+  if (req.baseUrl.includes('/userList')) {
     if (['POST', 'PUT'].includes(req.method)) {
-      req.query = req.body
-      req.query['updated_at'] = formatDate(new Date());
+      req.body['updated_at'] = formatDate(new Date());
     } else if (req.method === 'PATCH') {
       if (req.body.hasOwnProperty('heartbeat') === true) {
-        req.query = req.body
-        req.query['heartbeat'] = formatDate(new Date());
+        req.body['heartbeat'] = formatDate(new Date());
       } else if (req.body.hasOwnProperty('order') === false) {
-        req.query = req.body
-        req.query['updated_at'] = formatDate(new Date());
+        req.body['updated_at'] = formatDate(new Date());
       }
     }
   }
