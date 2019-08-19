@@ -14,6 +14,7 @@
       "message": "Hi there!",
       "order": 1,
       "version": "",
+      "heartbeat": "2019-07-29 16:54:57.9691",
       "id": 1
     },
     {
@@ -25,6 +26,7 @@
       "message": "いってきます！",
       "order": 2,
       "version": "",
+      "heartbeat": "2019-07-29 16:56:56.581",
       "id": 2
     },
     {
@@ -36,6 +38,7 @@
       "message": "",
       "order": 3,
       "version": "",
+      "heartbeat": "2019-07-26 09:13:52.102",
       "id": 3
     }
   ]
