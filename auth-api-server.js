@@ -69,6 +69,14 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
   //認証トークンの検証
   try {
     await verifyToken(req.headers.authorization.split(' ')[1])
+  } catch (err) {
+    //失効している認証トークン
+    const status = 401
+    const message = 'Error in authorization'
+    res.status(status).json({ status, message })
+  }
+
+  if (['/userList'].includes(req.baseUrl)) {
     if (['POST', 'PUT'].includes(req.method)) {
       req.query = req.body
       req.query['updated_at'] = formatDate(new Date());
@@ -81,14 +89,9 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
         req.query['updated_at'] = formatDate(new Date());
       }
     }
+  }
 
-    next()
-} catch (err) {
-  //失効している認証トークン
-  const status = 401
-  const message = 'Error in authorization'
-  res.status(status).json({ status, message })
-}
+  next()
 })
 
 //認証機能付きのREST APIサーバ起動
