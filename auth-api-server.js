@@ -1,79 +1,76 @@
 //モジュール参照
-const fs = require('fs')
-const bodyParser = require('body-parser')
-const jsonServer = require('json-server')
-const jwt = require('jsonwebtoken')
+const fs = require('fs');
+const bodyParser = require('body-parser');
+const jsonServer = require('json-server');
+const jwt = require('jsonwebtoken');
 
 //JSON Serverで、利用するJSONファイルを設定
-const server = jsonServer.create()
-const router = jsonServer.router('./DB.json')
-const middlewares = jsonServer.defaults()
+const server = jsonServer.create();
+const router = jsonServer.router('./DB.json');
+const middlewares = jsonServer.defaults();
 
 //JSONリクエスト対応
-server.use(bodyParser.urlencoded({ extended: true }))
-server.use(bodyParser.json())
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
 
 //expressミドルウェアを設定
-server.use(middlewares)
+server.use(middlewares);
 
 //署名作成ワードと有効期限(6時間)
-const SECRET_WORD = '4U!ZgF/a'
-const expiresIn = '24h'
+const SECRET_WORD = '4U!ZgF/a';
+const expiresIn = '24h';
 
 //署名作成関数
-const createToken = payload => jwt.sign(payload, SECRET_WORD, { expiresIn })
+const createToken = payload => jwt.sign(payload, SECRET_WORD, { expiresIn });
 
 //署名検証関数（非同期）
 const verifyToken = token =>
   new Promise((resolve, reject) =>
-    jwt.verify(token, SECRET_WORD, (err, decode) =>
-      decode !== undefined ? resolve(decode) : reject(err)
-    )
-  )
+    jwt.verify(token, SECRET_WORD, (err, decode) => (decode !== undefined ? resolve(decode) : reject(err)))
+  );
 
 //ユーザDBファイル読み込み
-const userdb = JSON.parse(fs.readFileSync('./users.json', 'UTF-8'))
+const userdb = JSON.parse(fs.readFileSync('./users.json', 'UTF-8'));
 
 //ログイン関数 true:ok false:ng
 const isAuth = ({ username, password }) =>
-  userdb.users.findIndex(user => user.username === username && user.password === password) !== -1
+  userdb.users.findIndex(user => user.username === username && user.password === password) !== -1;
 
 //ログインRouter
 server.post('/auth/login', (req, res) => {
-  const { username, password } = req.body
+  const { username, password } = req.body;
 
   //ログイン検証
   if (isAuth({ username, password }) === false) {
-    const status = 401
-    const message = 'Error in authorization'
-    res.status(status).json({ status, message })
-    return
+    const status = 401;
+    const message = 'Error in authorization';
+    res.status(status).json({ status, message });
+    return;
   }
 
   //ログイン成功時に認証トークンを発行
-  const token = createToken({ username, password })
-  res.status(200).json({ token })
-})
+  const token = createToken({ username, password });
+  res.status(200).json({ token });
+});
 
 //認証が必要なRouter(ログイン以外全て)
 server.use(/^(?!\/auth).*$/, async (req, res, next) => {
-
   //認証ヘッダー形式検証
   if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
-    const status = 401
-    const message = 'Error in authorization'
-    res.status(status).json({ status, message })
-    return
+    const status = 401;
+    const message = 'Error in authorization';
+    res.status(status).json({ status, message });
+    return;
   }
 
   //認証トークンの検証
   try {
-    await verifyToken(req.headers.authorization.split(' ')[1])
+    await verifyToken(req.headers.authorization.split(' ')[1]);
   } catch (err) {
     //失効している認証トークン
-    const status = 401
-    const message = 'Error in authorization'
-    res.status(status).json({ status, message })
+    const status = 401;
+    const message = 'Error in authorization';
+    res.status(status).json({ status, message });
   }
 
   if (req.baseUrl.includes('/userList')) {
@@ -88,16 +85,16 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
     }
   }
 
-  next()
-})
+  next();
+});
 
 //認証機能付きのREST APIサーバ起動
-server.use(router)
+server.use(router);
 server.listen(3001, () => {
-  console.log('Run Auth API Server')
-})
+  console.log('Run Auth API Server');
+});
 
-formatDate = (date) => {
+formatDate = date => {
   format = 'YYYY-MM-DD hh:mm:ss.SSS';
   format = format.replace(/YYYY/g, date.getFullYear());
   format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
