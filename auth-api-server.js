@@ -3,11 +3,25 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const jsonServer = require('json-server');
 const jwt = require('jsonwebtoken');
+const morgan = require('morgan');
+const path = require('path');
+
+//ログの保存場所
+const logDirectory = path.join(__dirname, './log');
+//指定したディレクトリが存在しなければ作成
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
+//ファイルストリームを作成
+var accessLogStream = rfs('access.log', {
+  size: '10MB',
+  interval: '7d',
+  compress: 'gzip',
+  path: logDirectory
+});
 
 //JSON Serverで、利用するJSONファイルを設定
 const server = jsonServer.create();
 const router = jsonServer.router('./DB.json');
-const middlewares = jsonServer.defaults();
+const middlewares = jsonServer.defaults({ logger: false });
 
 //JSONリクエスト対応
 server.use(bodyParser.urlencoded({ extended: true }));
@@ -16,7 +30,17 @@ server.use(bodyParser.json());
 //expressミドルウェアを設定
 server.use(middlewares);
 
-//署名作成ワードと有効期限(6時間)
+var customToken =
+  '":date[iso]",:custom_token,":remote-addr",":remote-user",":method",":url","HTTP/:http-version",":status",":req[content-length]",":res[content-length]",":referrer",":user-agent"';
+
+morgan.token('custom_token', (req, res) => {
+  const return_log = `${req.body['id'] || '"-"'},"${req.body['status'] || '-'}"`;
+  return return_log;
+});
+
+server.use(morgan(customToken, { colors: true }));
+
+//署名作成ワードと有効期限(24時間)
 const SECRET_WORD = '4U!ZgF/a';
 const expiresIn = '24h';
 
