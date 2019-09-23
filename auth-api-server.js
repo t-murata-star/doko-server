@@ -5,6 +5,7 @@ const jsonServer = require('json-server');
 const jwt = require('jsonwebtoken');
 const morgan = require('morgan');
 const path = require('path');
+const rfs = require('rotating-file-stream');
 
 //ログの保存場所
 const logDirectory = path.join(__dirname, './log');
@@ -31,14 +32,18 @@ server.use(bodyParser.json());
 server.use(middlewares);
 
 var customToken =
-  '":date[iso]",:custom_token,":remote-addr",":remote-user",":method",":url","HTTP/:http-version",":status",":req[content-length]",":res[content-length]",":referrer",":user-agent"';
+  '":date[iso]",:custom_token,":remote-addr",":remote-user",":method",":url","HTTP/:http-version",":status",":referrer",":user-agent"';
 
 morgan.token('custom_token', (req, res) => {
-  const return_log = `${req.body['id'] || '"-"'},"${req.body['status'] || '-'}"`;
+  const return_log = `${req.body['id'] || '"-"'},"${req.body['name'] || '-'}","${req.body['status'] || '-'}"`;
   return return_log;
 });
 
-server.use(morgan(customToken, { colors: true }));
+server.use(
+  morgan(customToken, {
+    stream: accessLogStream
+  })
+);
 
 //署名作成ワードと有効期限(24時間)
 const SECRET_WORD = '4U!ZgF/a';
