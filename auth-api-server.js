@@ -14,7 +14,7 @@ fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 //ファイルストリームを作成
 var accessLogStream = rfs('access.log', {
   size: '10MB',
-  interval: '7d',
+  interval: '1M',
   compress: 'gzip',
   path: logDirectory
 });
