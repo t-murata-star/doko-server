@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const morgan = require('morgan');
 const path = require('path');
 const rfs = require('rotating-file-stream');
+const moment = require('moment-timezone');
 
 //ログの保存場所
 const logDirectory = path.join(__dirname, './log');
@@ -18,6 +19,7 @@ var accessLogStream = rfs('access.log', {
   compress: 'gzip',
   path: logDirectory
 });
+const timezone = 'Asia/Tokyo';
 
 //JSON Serverで、利用するJSONファイルを設定
 const server = jsonServer.create();
@@ -32,10 +34,12 @@ server.use(bodyParser.json());
 server.use(middlewares);
 
 var customToken =
-  '":date[iso]",:custom_token,":remote-addr",":remote-user",":method",":url","HTTP/:http-version",":status",":referrer",":user-agent"';
+  ':custom_token,":remote-addr",":remote-user",":method",":url","HTTP/:http-version",":status",":referrer",":user-agent"';
 
 morgan.token('custom_token', (req, res) => {
-  const return_log = `${req.body['id'] || '"-"'},"${req.body['name'] || '-'}","${req.body['status'] || '-'}"`;
+  const return_log = `"${moment()
+    .tz(timezone)
+    .format()}",${req.body['id'] || '"-"'},"${req.body['name'] || '-'}","${req.body['status'] || '-'}"`;
   return return_log;
 });
 
