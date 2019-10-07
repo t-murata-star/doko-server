@@ -37,9 +37,9 @@ var customToken =
   ':custom_token,":remote-addr",":remote-user",":method",":url","HTTP/:http-version",":status",":referrer",":user-agent"';
 
 morgan.token('custom_token', (req, res) => {
-  const return_log = `"${moment()
+  const return_log = `${moment()
     .tz(timezone)
-    .format()}",${req.body['id'] || '"-"'},"${req.body['name'] || '-'}","${req.body['status'] || '-'}"`;
+    .format()},${req.body['id'] || '"-"'},"${req.body['name'] || '-'}","${req.body['status'] || '-'}"`;
   return return_log;
 });
 
