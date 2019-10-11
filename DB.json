@@ -41,5 +41,23 @@
       "heartbeat": "2019-07-26 09:13:52.102",
       "id": 3
     }
-  ]
+  ],
+  "officeInfo": {
+    "restroom": {
+      "men": {
+        "places": {
+          "first": {
+            "isUsing": false
+          }
+        }
+      },
+      "women": {
+        "places": {
+          "first": {
+            "isUsing": false
+          }
+        }
+      }
+    }
+  }
 }
