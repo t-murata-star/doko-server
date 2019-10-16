@@ -42,22 +42,18 @@
       "id": 3
     }
   ],
-  "officeInfo": {
-    "restroom": {
-      "men": {
-        "places": {
-          "first": {
-            "isUsing": false
-          }
-        }
-      },
-      "women": {
-        "places": {
-          "first": {
-            "isUsing": false
-          }
-        }
-      }
+  "restroom": [
+    {
+      "id": 1,
+      "gender": "men",
+      "place": "first",
+      "isUsing": false
+    },
+    {
+      "id": 2,
+      "gender": "women",
+      "place": "first",
+      "isUsing": false
     }
-  }
+  ]
 }
