@@ -2,7 +2,7 @@
   "notification": {
     "targetIDs": [],
     "content": "",
-    "latestAppVersion": "1.0.3"
+    "latestAppVersion": "2.0.0"
   },
   "userList": [
     {
@@ -40,6 +40,20 @@
       "version": "",
       "heartbeat": "2019-07-26 09:13:52.102",
       "id": 3
+    }
+  ],
+  "restrooms": [
+    {
+      "id": 1,
+      "gender": "men",
+      "place": "first",
+      "isUsing": false
+    },
+    {
+      "id": 2,
+      "gender": "women",
+      "place": "first",
+      "isUsing": false
     }
   ]
 }
