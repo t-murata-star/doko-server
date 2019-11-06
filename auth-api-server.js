@@ -108,12 +108,12 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
 
   if (req.baseUrl.includes('/userList')) {
     if (['POST', 'PUT'].includes(req.method)) {
-      req.body['updated_at'] = formatDate(new Date());
+      req.body['updatedAt'] = formatDate(new Date());
     } else if (req.method === 'PATCH') {
       if (req.body.hasOwnProperty('heartbeat') === true) {
         req.body['heartbeat'] = formatDate(new Date());
       } else if (req.body.hasOwnProperty('order') === false) {
-        req.body['updated_at'] = formatDate(new Date());
+        req.body['updatedAt'] = formatDate(new Date());
       }
     }
   }
