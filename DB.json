@@ -1,6 +1,6 @@
 {
   "notification": {
-    "enabled": true,
+    "enabled": false,
     "content": "",
     "latestAppVersion": "2.0.0"
   },
