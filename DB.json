@@ -1,6 +1,6 @@
 {
   "notification": {
-    "targetIDs": [],
+    "enabled": true,
     "content": "",
     "latestAppVersion": "2.0.0"
   },
