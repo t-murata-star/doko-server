@@ -79,11 +79,11 @@ fi
 userID=`grep "${name}" ${log_filepath} | tail -n1 | awk -F , '{ print $8 }'`
 
 # おおよその始業時刻を抽出
-opening_record=`echo "${extraction_log_by_date}" | grep -e ${userID} -e '"-","-","-"' | head -n1 | awk -F , '{ print $1 }'`
+opening_record=`echo "${extraction_log_by_date}" | grep ${userID} | head -n1 | awk -F , '{ print $1 }'`
 opening_record=`date -d ${opening_record} "+%H:%m"`
 
 # おおよその最終業務時刻を抽出
-last_record=`echo "${extraction_log_by_date}" | grep -e ${userID} -e '"-","-","-"' | tail -n1 | awk -F , '{ print $1 }'`
+last_record=`echo "${extraction_log_by_date}" | grep ${userID} | tail -n1 | awk -F , '{ print $1 }'`
 last_record=`date -d ${last_record} "+%H:%m"`
 
 echo "${record}"
