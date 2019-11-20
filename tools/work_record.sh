@@ -61,11 +61,19 @@ yaer=${date:0:4}
 month=${date:4:2}
 day=${date:6:2}
 
+output_record_date=`date -d ${yaer}${month}${day} "+%Y年%m月%d日(%A)"`
+echo "========== ${name}さん ${output_record_date} の業務記録 =========="
+
 # 日付の範囲のログを抽出する
 extraction_log_by_date=`awk -F , '"'${yaer}'-'${month}'-'${day}'T00:00:00" < $1 && $1 <= "'${yaer}'-'${month}'-'${day}'T23:59:59"' $log_filepath`
 
 # 業務記録(一日)を抽出
 record=`echo "${extraction_log_by_date}" | grep "${name}" | awk -F , -v 'OFS=,' '{ print $1,$3,$4 }'`
+
+if [ -z "$record" ]; then
+  echo "業務記録はありません"
+  exit 1
+fi
 
 # 氏名からuserIDを特定する
 userID=`grep "${name}" ${log_filepath} | tail -n1 | awk -F , '{ print $8 }'`
@@ -78,24 +86,16 @@ opening_record=`date -d ${opening_record} "+%H:%m"`
 last_record=`echo "${extraction_log_by_date}" | grep -e ${userID} -e '"-","-","-"' | tail -n1 | awk -F , '{ print $1 }'`
 last_record=`date -d ${last_record} "+%H:%m"`
 
-output_record_date=`date -d ${yaer}${month}${day} "+%Y年%m月%d日(%A)"`
-echo "========== ${name}さん ${output_record_date} の業務記録 =========="
+echo "${record}"
+echo
+echo "勤務時間: ${opening_record} ～ ${last_record}"
 
-# 指定した日付のデータが存在するかどうか
-if [ -n "$record" -a -n "$last_record" ]; then
-  echo "${record}"
-  echo
-  echo "勤務時間: ${opening_record} ～ ${last_record}"
-
-  # 一日の離席時間の合計(秒)を計算
-  leaving_time_s_sum=$(calcLeavingTime "$record")
-  # 秒を分に変換
-  leaving_time_m_sum=$((leaving_time_s_sum / 60))
-  # 昼休憩を考慮し、離席時間から60分減算する
-  if [ $leaving_time_m_sum -gt 60 ]; then
-    leaving_time_m_sum=$((leaving_time_m_sum - 60))
-  fi
-  echo "離席時間: ${leaving_time_m_sum} 分"
-else
-  echo "業務記録はありません"
+# 一日の離席時間の合計(秒)を計算
+leaving_time_s_sum=$(calcLeavingTime "$record")
+# 秒を分に変換
+leaving_time_m_sum=$((leaving_time_s_sum / 60))
+# 昼休憩を考慮し、離席時間から60分減算する
+if [ $leaving_time_m_sum -gt 60 ]; then
+  leaving_time_m_sum=$((leaving_time_m_sum - 60))
 fi
+echo "離席時間: ${leaving_time_m_sum} 分"
