@@ -85,7 +85,7 @@ echo "========== ${name}さん ${output_record_date} の業務記録 =========="
 if [ -n "$record" -a -n "$last_record" ]; then
   echo "${record}"
   echo
-  echo "本日の勤務時間: ${opening_record} ～ ${last_record}"
+  echo "勤務時間: ${opening_record} ～ ${last_record}"
 
   # 一日の離席時間の合計(秒)を計算
   leaving_time_s_sum=$(calcLeavingTime "$record")
@@ -97,5 +97,5 @@ if [ -n "$record" -a -n "$last_record" ]; then
   fi
   echo "離席時間: ${leaving_time_m_sum} 分"
 else
-  echo "本日の業務記録はありません"
+  echo "業務記録はありません"
 fi
