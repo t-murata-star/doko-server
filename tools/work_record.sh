@@ -20,13 +20,13 @@ calcLeavingTime () {
   while read line ; do
       set -- $line
 
-      if [ $3 == '"在席 (離席中)"' -a "${TEMP_LEAVING_TIME_CALC_FLAG}" == "false" ]; then
+      if [ $2 == '"在席 (離席中)"' -a "${TEMP_LEAVING_TIME_CALC_FLAG}" == "false" ]; then
         TEMP_LEAVING_TIME_FROM=$1
         TEMP_LEAVING_TIME_CALC_FLAG=true
         continue
       fi
 
-      if [ $3 != '"在席 (離席中)"' -a "${TEMP_LEAVING_TIME_CALC_FLAG}" == "true" ]; then
+      if [ $2 != '"在席 (離席中)"' -a "${TEMP_LEAVING_TIME_CALC_FLAG}" == "true" ]; then
         TEMP_LEAVING_TIME_TO=$1
         TEMP_LEAVING_TIME_CALC_FLAG=false
         # echo TO ' ' $1 $3 $TEMP_LEAVING_TIME_FROM $TEMP_LEAVING_TIME_TO
@@ -68,7 +68,7 @@ echo "========== ${name}さん ${output_record_date} の業務記録 =========="
 extraction_log_by_date=`awk -F , '"'${yaer}'-'${month}'-'${day}'T00:00:00" < $1 && $1 <= "'${yaer}'-'${month}'-'${day}'T23:59:59"' $log_filepath`
 
 # 業務記録(一日)を抽出
-record=`echo "${extraction_log_by_date}" | grep "${name}" | awk -F , -v 'OFS=,' '{ print $1,$3,$4 }'`
+record=`echo "${extraction_log_by_date}" | grep "${name}" | awk -F , -v 'OFS=,' '{ print $1,$4 }'`
 
 if [ -z "$record" ]; then
   echo "業務記録はありません"
