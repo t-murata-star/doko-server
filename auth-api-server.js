@@ -107,16 +107,17 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
   }
 
   if (req.baseUrl.includes('/userList')) {
+    let nowDate;
     switch (req.method) {
       // ユーザ追加
       case 'POST':
-        const nowDate = formatDate(new Date());
+        nowDate = formatDate(new Date());
         req.body['updatedAt'] = nowDate;
         req.body['heartbeat'] = nowDate;
         break;
 
       case 'PATCH':
-        const nowDate = formatDate(new Date());
+        nowDate = formatDate(new Date());
         // Heartbeat定期送信
         if (req.body.hasOwnProperty('heartbeat') === true) {
           req.body['heartbeat'] = nowDate;
