@@ -107,14 +107,28 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
   }
 
   if (req.baseUrl.includes('/userList')) {
-    if (['POST', 'PUT'].includes(req.method)) {
-      req.body['updatedAt'] = formatDate(new Date());
-    } else if (req.method === 'PATCH') {
-      if (req.body.hasOwnProperty('heartbeat') === true) {
-        req.body['heartbeat'] = formatDate(new Date());
-      } else if (req.body.hasOwnProperty('order') === false) {
-        req.body['updatedAt'] = formatDate(new Date());
-      }
+    switch (req.method) {
+      // ユーザ追加
+      case 'POST':
+        const nowDate = formatDate(new Date());
+        req.body['updatedAt'] = nowDate;
+        req.body['heartbeat'] = nowDate;
+        break;
+
+      case 'PATCH':
+        const nowDate = formatDate(new Date());
+        // Heartbeat定期送信
+        if (req.body.hasOwnProperty('heartbeat') === true) {
+          req.body['heartbeat'] = nowDate;
+          break;
+        }
+        // ユーザ情報更新
+        if (req.body.hasOwnProperty('order') === false) {
+          req.body['updatedAt'] = nowDate;
+          break;
+        }
+      default:
+        break;
     }
   }
 
