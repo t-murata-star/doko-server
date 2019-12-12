@@ -137,7 +137,7 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
     }
   }
 
-  if (req.baseUrl.includes('/getSignedUrl')) {
+  if (req.baseUrl.includes('/getS3SignedUrl')) {
     switch (req.method) {
       case 'GET':
         const s3 = new AWS.S3();
