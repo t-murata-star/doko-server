@@ -5,11 +5,11 @@
     "latestAppVersion": "2.0.1",
     "updateInstaller": {
       "windows": {
-        "url": "",
+        "fileName": "",
         "fileByteSize": 0
       },
       "mac": {
-        "url": "",
+        "fileName": "",
         "fileByteSize": 0
       }
     }
