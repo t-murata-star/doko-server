@@ -7,7 +7,14 @@ const morgan = require('morgan');
 const path = require('path');
 const rfs = require('rotating-file-stream');
 const moment = require('moment-timezone');
+const AWS = require('aws-sdk');
 
+// 設定ファイル読み込み
+const SETTINGS = JSON.parse(fs.readFileSync('./settings.json', 'UTF-8'));
+// アップデートインストーラ格納先S3バケット
+const s3BucketName = SETTINGS.s3BucketName;
+// S3バケットからオブジェクトをダウンロード可能な有効期限(秒)
+const getS3ObjectExpiresSec = SETTINGS.getS3ObjectExpiresSec;
 //ログの保存場所
 const logDirectory = path.join(__dirname, './log');
 //指定したディレクトリが存在しなければ作成
@@ -62,12 +69,9 @@ const verifyToken = token =>
     jwt.verify(token, SECRET_WORD, (err, decode) => (decode !== undefined ? resolve(decode) : reject(err)))
   );
 
-//ユーザDBファイル読み込み
-const userdb = JSON.parse(fs.readFileSync('./users.json', 'UTF-8'));
-
 //ログイン関数 true:ok false:ng
 const isAuth = ({ username, password }) =>
-  userdb.users.findIndex(user => user.username === username && user.password === password) !== -1;
+  SETTINGS.users.findIndex(user => user.username === username && user.password === password) !== -1;
 
 //ログインRouter
 server.post('/auth/login', (req, res) => {
@@ -131,6 +135,32 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
       default:
         break;
     }
+  }
+
+  if (req.baseUrl.includes('/getS3SignedUrl')) {
+    switch (req.method) {
+      case 'GET':
+        const s3 = new AWS.S3();
+        const params = {
+          Bucket: s3BucketName,
+          Key: req.query.fileName || '',
+          Expires: getS3ObjectExpiresSec
+        };
+        s3.getSignedUrl('getObject', params, (err, url) => {
+          if (err) {
+            res.status(200).json({ url: '' });
+            return;
+          }
+          res.status(200).json({ url });
+        });
+        break;
+
+      default:
+        break;
+    }
+
+    // next()メソッドを実行せずにreturnする必要がある
+    return;
   }
 
   next();

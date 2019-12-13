@@ -2,8 +2,32 @@
   "notification": {
     "enabled": false,
     "content": "",
-    "latestAppVersion": "2.0.1"
+    "latestAppVersion": "2.0.1",
+    "updateInstaller": {
+      "windows": {
+        "fileName": "",
+        "fileByteSize": 0
+      },
+      "mac": {
+        "fileName": "",
+        "fileByteSize": 0
+      }
+    }
   },
+  "restrooms": [
+    {
+      "id": 1,
+      "gender": "men",
+      "place": "first",
+      "isUsing": false
+    },
+    {
+      "id": 2,
+      "gender": "women",
+      "place": "first",
+      "isUsing": false
+    }
+  ],
   "userList": [
     {
       "name": "テスト",
@@ -43,20 +67,6 @@
       "heartbeat": "2019-07-26 09:13:52.102",
       "email": "",
       "id": 3
-    }
-  ],
-  "restrooms": [
-    {
-      "id": 1,
-      "gender": "men",
-      "place": "first",
-      "isUsing": false
-    },
-    {
-      "id": 2,
-      "gender": "women",
-      "place": "first",
-      "isUsing": false
     }
   ]
 }
