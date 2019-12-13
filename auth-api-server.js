@@ -20,7 +20,7 @@ const logDirectory = path.join(__dirname, './log');
 //指定したディレクトリが存在しなければ作成
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 //ファイルストリームを作成
-var accessLogStream = rfs('access.log', {
+const accessLogStream = rfs('access.log', {
   size: '10MB',
   interval: '1M',
   compress: 'gzip',
@@ -40,7 +40,7 @@ server.use(bodyParser.json());
 //expressミドルウェアを設定
 server.use(middlewares);
 
-var customToken =
+const customToken =
   ':custom_token,":remote-addr",":remote-user",":method",":url","HTTP/:http-version",":status",":referrer",":user-agent"';
 
 morgan.token('custom_token', (req, res) => {
