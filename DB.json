@@ -1,6 +1,5 @@
 {
   "notification": {
-    "enabled": false,
     "content": "",
     "latestAppVersion": "3.0.0",
     "updateInstaller": {
