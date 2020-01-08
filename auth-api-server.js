@@ -127,6 +127,14 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
           req.body['heartbeat'] = nowDate;
           break;
         }
+        /**
+         * アプリケーションバージョンの更新
+         * updatedAtは更新しない
+         */
+        if (req.body.hasOwnProperty('status') === false && req.body.hasOwnProperty('version') === true) {
+          req.body['heartbeat'] = nowDate;
+          break;
+        }
         // ユーザ情報更新
         if (req.body.hasOwnProperty('order') === false) {
           req.body['updatedAt'] = nowDate;
