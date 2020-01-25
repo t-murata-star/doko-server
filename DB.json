@@ -4,12 +4,10 @@
     "latestAppVersion": "3.0.0",
     "updateInstaller": {
       "windows": {
-        "fileName": "",
-        "fileByteSize": 0
+        "fileName": ""
       },
       "mac": {
-        "fileName": "",
-        "fileByteSize": 0
+        "fileName": ""
       }
     }
   },
