@@ -108,6 +108,7 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
     const status = 401;
     const message = 'Error in authorization';
     res.status(status).json({ status, message });
+    return;
   }
 
   if (req.baseUrl.includes('/userList')) {
@@ -156,10 +157,35 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
         };
         s3.getSignedUrl('getObject', params, (err, url) => {
           if (err) {
-            res.status(200).json({ url: '' });
+            res.status(404).json({});
             return;
           }
           res.status(200).json({ url });
+        });
+        break;
+
+      default:
+        break;
+    }
+
+    // next()メソッドを実行せずにreturnする必要がある
+    return;
+  }
+
+  if (req.baseUrl.includes('/getS3ObjectFileByteSize')) {
+    switch (req.method) {
+      case 'GET':
+        const s3 = new AWS.S3();
+        const params = {
+          Bucket: s3BucketName,
+          Key: req.query.fileName || ''
+        };
+        s3.headObject(params, (err, data) => {
+          if (err) {
+            res.status(404).json({});
+            return;
+          }
+          res.status(200).json({ fileByteSize: data.ContentLength });
         });
         break;
 
