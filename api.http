@@ -1,0 +1,117 @@
+# ログイン
+# @name login
+POST {{host}}/auth/login
+content-type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+
+###
+
+@token = {{login.response.body.$.token}}
+
+###
+
+# ユーザ一覧取得
+GET {{host}}/userList
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+###
+
+# ユーザ追加
+POST {{host}}/userList
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+{
+  "order": 1,
+  "name": "テスト",
+  "status": "本社外勤務",
+  "destination": "テストテストテストテストテスト",
+  "return": "7/20 16:00",
+  "update_at": "2019/07/10",
+  "message": "Hi there!",
+  "version": "2.0.0",
+  "email": ""
+}
+
+###
+
+# ユーザ削除
+DELETE {{host}}/userList/4
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+###
+
+# ユーザ情報更新
+PATCH  {{host}}/userList/4
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+{
+  "name": "あああ",
+  "status": "FLEX"
+}
+
+###
+
+# お知らせ情報取得
+GET  {{host}}/notification
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+###
+
+# お知らせ情報更新
+PATCH   {{host}}/notification
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+{
+  "content": "",
+  "latestAppVersion": "3.0.0",
+  "updateInstaller": {
+    "windows": {
+      "fileName": ""
+    },
+    "mac": {
+      "fileName": ""
+    }
+  }
+}
+
+###
+
+# トイレ情報取得
+GET {{host}}/restrooms
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+###
+
+# トイレ情報更新
+PATCH {{host}}/restrooms/2
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+{
+  "isUsing": false
+}
+
+###
+
+# S3 の Pre-Signed URL を取得
+GET  {{host}}/getS3SignedUrl?fileName=
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+###
+
+# S3 の オブジェクトのファイルサイズを取得
+GET  {{host}}/getS3ObjectFileByteSize?fileName=
+content-type: application/json
+Authorization:  Bearer {{token}}
