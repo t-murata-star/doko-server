@@ -1,2 +1,2 @@
 ## モックサーバ起動
-`$ npm run start:mock`
+`$ npm run start:auth`
