@@ -1,7 +1,7 @@
 {
   "notification": {
     "content": "",
-    "latestAppVersion": "3.0.0",
+    "latestAppVersion": "3.1.0",
     "updateInstaller": {
       "windows": {
         "fileName": ""
