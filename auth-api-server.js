@@ -7,7 +7,6 @@ const morgan = require('morgan');
 const path = require('path');
 const rfs = require('rotating-file-stream');
 const moment = require('moment-timezone');
-const AWS = require('aws-sdk');
 
 // 設定ファイル読み込み
 const SETTINGS = JSON.parse(fs.readFileSync('./settings.json', 'UTF-8'));
@@ -144,57 +143,6 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
       default:
         break;
     }
-  }
-
-  if (req.baseUrl.includes('/getS3SignedUrl')) {
-    switch (req.method) {
-      case 'GET':
-        const s3 = new AWS.S3();
-        const params = {
-          Bucket: s3BucketName,
-          Key: req.query.fileName || '',
-          Expires: getS3ObjectExpiresSec
-        };
-        s3.getSignedUrl('getObject', params, (err, url) => {
-          if (err) {
-            res.status(404).json({});
-            return;
-          }
-          res.status(200).json({ url });
-        });
-        break;
-
-      default:
-        break;
-    }
-
-    // next()メソッドを実行せずにreturnする必要がある
-    return;
-  }
-
-  if (req.baseUrl.includes('/getS3ObjectFileByteSize')) {
-    switch (req.method) {
-      case 'GET':
-        const s3 = new AWS.S3();
-        const params = {
-          Bucket: s3BucketName,
-          Key: req.query.fileName || ''
-        };
-        s3.headObject(params, (err, data) => {
-          if (err) {
-            res.status(404).json({});
-            return;
-          }
-          res.status(200).json({ fileByteSize: data.ContentLength });
-        });
-        break;
-
-      default:
-        break;
-    }
-
-    // next()メソッドを実行せずにreturnする必要がある
-    return;
   }
 
   next();
