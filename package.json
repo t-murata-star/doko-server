@@ -9,7 +9,6 @@
     "start:auth": "cp DB.json DB.json.bak && node auth-api-server"
   },
   "dependencies": {
-    "aws-sdk": "^2.588.0",
     "json-server": "^0.15.0",
     "jsonwebtoken": "^8.5.1",
     "moment-timezone": "^0.5.26",
