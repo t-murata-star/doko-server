@@ -28,13 +28,13 @@ Authorization:  Bearer {{token}}
 
 {
   "order": 1,
-  "name": "テスト",
-  "status": "本社外勤務",
-  "destination": "テストテストテストテストテスト",
-  "return": "7/20 16:00",
-  "update_at": "2019/07/10",
-  "message": "Hi there!",
-  "version": "2.0.0",
+  "name": "{{$guid}}",
+  "status": "退社",
+  "destination": "",
+  "return": "",
+  "update_at": "",
+  "message": "",
+  "version": "",
   "email": ""
 }
 
