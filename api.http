@@ -73,15 +73,7 @@ Authorization:  Bearer {{token}}
 
 {
   "content": "",
-  "latestAppVersion": "3.0.0",
-  "updateInstaller": {
-    "windows": {
-      "fileName": ""
-    },
-    "mac": {
-      "fileName": ""
-    }
-  }
+  "latestAppVersion": "3.1.0"
 }
 
 ###
@@ -101,17 +93,3 @@ Authorization:  Bearer {{token}}
 {
   "isUsing": false
 }
-
-###
-
-# S3 の Pre-Signed URL を取得
-GET  {{host}}/getS3SignedUrl?fileName=
-content-type: application/json
-Authorization:  Bearer {{token}}
-
-###
-
-# S3 の オブジェクトのファイルサイズを取得
-GET  {{host}}/getS3ObjectFileByteSize?fileName=
-content-type: application/json
-Authorization:  Bearer {{token}}
