@@ -15,7 +15,7 @@ const s3BucketName = SETTINGS.s3BucketName;
 // S3バケットからオブジェクトをダウンロード可能な有効期限(秒)
 const getS3ObjectExpiresSec = SETTINGS.getS3ObjectExpiresSec;
 //ログの保存場所
-const logDirectory = path.join(__dirname, './log');
+const logDirectory = path.join(__dirname, './logs');
 //指定したディレクトリが存在しなければ作成
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 //ファイルストリームを作成
