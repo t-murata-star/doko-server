@@ -3,4 +3,4 @@ package-lock.json
 .vscode
 .DS_Store
 DB.json.bak
-log
+logs
