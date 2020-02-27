@@ -1,6 +1,4 @@
 {
-  "s3BucketName": "",
-  "getS3ObjectExpiresSec": 60,
   "users": [
     {
       "id": 1,
