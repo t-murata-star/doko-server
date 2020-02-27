@@ -11,7 +11,7 @@ const moment = require('moment-timezone');
 // 設定ファイル読み込み
 const SETTINGS = JSON.parse(fs.readFileSync('./settings.json', 'UTF-8'));
 //ログの保存場所
-const LOG_DIRECTORY = path.join(__dirname, './log');
+const LOG_DIRECTORY = path.join(__dirname, './logs');
 //指定したディレクトリが存在しなければ作成
 fs.existsSync(LOG_DIRECTORY) || fs.mkdirSync(LOG_DIRECTORY);
 //ファイルストリームを作成
