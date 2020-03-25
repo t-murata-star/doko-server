@@ -17,6 +17,10 @@
       "isUsing": false
     }
   ],
+  "officeInfo": {
+    "tempreture": 23.5,
+    "humidity": 47.6
+  },
   "userList": [
     {
       "name": "テスト",
