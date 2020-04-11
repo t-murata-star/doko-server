@@ -93,3 +93,22 @@ Authorization:  Bearer {{token}}
 {
   "isUsing": false
 }
+
+###
+
+# 執務室情報取得
+GET {{host}}/officeInfo
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+###
+
+# 執務室情報更新
+PATCH {{host}}/officeInfo
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+{
+  "tempreture": 25.3,
+  "humidity": 42.7
+}
