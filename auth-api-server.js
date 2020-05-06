@@ -19,7 +19,7 @@ const ACCESS_LOG_STREAM = rfs('access.log', {
   size: '10MB',
   interval: '1M',
   compress: 'gzip',
-  path: LOG_DIRECTORY
+  path: LOG_DIRECTORY,
 });
 const TIMEZONE = 'Asia/Tokyo';
 
@@ -39,15 +39,15 @@ const CUSTOM_TOKEN =
   ':custom_token,":remote-addr",":remote-user",":method",":url","HTTP/:http-version",":status",":referrer",":user-agent"';
 
 morgan.token('custom_token', (req, res) => {
-  const return_log = `${moment()
-    .tz(TIMEZONE)
-    .format()},${req.body['id'] || '"-"'},"${req.body['name'] || '-'}","${req.body['status'] || '-'}"`;
+  const return_log = `${moment().tz(TIMEZONE).format()},${req.body['id'] || '"-"'},"${req.body['name'] || '-'}","${
+    req.body['status'] || '-'
+  }"`;
   return return_log;
 });
 
 server.use(
   morgan(CUSTOM_TOKEN, {
-    stream: ACCESS_LOG_STREAM
+    stream: ACCESS_LOG_STREAM,
   })
 );
 
@@ -56,17 +56,17 @@ const SECRET_WORD = '4U!ZgF/a';
 const expiresIn = '24h';
 
 //署名作成関数
-const createToken = payload => jwt.sign(payload, SECRET_WORD, { expiresIn });
+const createToken = (payload) => jwt.sign(payload, SECRET_WORD, { expiresIn });
 
 //署名検証関数（非同期）
-const verifyToken = token =>
+const verifyToken = (token) =>
   new Promise((resolve, reject) =>
     jwt.verify(token, SECRET_WORD, (err, decode) => (decode !== undefined ? resolve(decode) : reject(err)))
   );
 
 //ログイン関数 true:ok false:ng
 const isAuth = ({ username, password }) =>
-  SETTINGS.users.findIndex(user => user.username === username && user.password === password) !== -1;
+  SETTINGS.users.findIndex((user) => user.username === username && user.password === password) !== -1;
 
 //ログインRouter
 server.post('/auth/login', (req, res) => {
@@ -150,7 +150,7 @@ server.listen(3001, () => {
   console.log('Run Auth API Server');
 });
 
-formatDate = date => {
+formatDate = (date) => {
   format = 'YYYY-MM-DD hh:mm:ss.SSS';
   format = format.replace(/YYYY/g, date.getFullYear());
   format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
