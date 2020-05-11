@@ -60,20 +60,25 @@ Authorization:  Bearer {{token}}
 ###
 
 # お知らせ情報取得
-GET  {{host}}/notification
+GET  {{host}}/appInfo
 content-type: application/json
 Authorization:  Bearer {{token}}
 
 ###
 
 # お知らせ情報更新
-PATCH   {{host}}/notification
+PATCH   {{host}}/appInfo
 content-type: application/json
 Authorization:  Bearer {{token}}
 
 {
-  "content": "",
-  "latestAppVersion": "3.1.0"
+  "latestAppVersion": "3.1.0",
+  "updateInfo": "",
+  "message": {
+    "enabled": false,
+    "version": "3.1.0a",
+    "text": ""
+  }
 }
 
 ###
