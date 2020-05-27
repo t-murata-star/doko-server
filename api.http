@@ -72,12 +72,13 @@ content-type: application/json
 Authorization:  Bearer {{token}}
 
 {
-  "latestAppVersion": "3.1.0",
-  "updateInfo": "",
-  "message": {
-    "enabled": false,
-    "version": "3.1.0a",
-    "text": ""
+  "main": {
+    "latestVersion": "3.1.0",
+    "updatedContents": ""
+  },
+  "renderer": {
+    "latestVersion": "3.1.0a",
+    "updatedContents": ""
   }
 }
 

@@ -1,11 +1,12 @@
 {
   "appInfo": {
-    "latestAppVersion": "3.1.0",
-    "updateInfo": "",
-    "message": {
-      "enabled": false,
-      "version": "",
-      "text": ""
+    "main": {
+      "latestVersion": "3.1.0",
+      "updatedContents": ""
+    },
+    "renderer": {
+      "latestVersion": "3.1.0a",
+      "updatedContents": ""
     }
   },
   "restrooms": [
