@@ -36,9 +36,10 @@
       "updatedAt": "2019-07-29 16:54:57.969",
       "message": "Hi there!",
       "order": 1,
-      "version": "",
       "healthCheckAt": "2019-07-29 16:54:57.9691",
       "email": "test@email.com",
+      "mainAppVersion": "",
+      "rendererAppVersion": "",
       "id": 1
     },
     {
@@ -49,9 +50,10 @@
       "updatedAt": "2019-07-29 16:56:56.581",
       "message": "いってきます！",
       "order": 2,
-      "version": "",
       "healthCheckAt": "2019-07-29 16:56:56.581",
       "email": "",
+      "mainAppVersion": "",
+      "rendererAppVersion": "",
       "id": 2
     },
     {
@@ -62,9 +64,10 @@
       "updatedAt": "2019-07-26 09:13:52.102",
       "message": "",
       "order": 3,
-      "version": "",
       "healthCheckAt": "2019-07-26 09:13:52.102",
       "email": "",
+      "mainAppVersion": "",
+      "rendererAppVersion": "",
       "id": 3
     }
   ]
