@@ -41,7 +41,7 @@ Authorization:  Bearer {{token}}
 ###
 
 # ユーザ削除
-DELETE {{host}}/userList/4
+DELETE {{host}}/userList/5
 content-type: application/json
 Authorization:  Bearer {{token}}
 
@@ -53,8 +53,42 @@ content-type: application/json
 Authorization:  Bearer {{token}}
 
 {
-  "name": "あああ",
-  "status": "FLEX"
+  "name": "asdasd",
+  "status": "asdasd"
+}
+
+###
+
+# healthCheck更新
+PATCH  {{host}}/healthCheck/4
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+{
+  "healthCheckAt": ""
+}
+
+###
+
+# appVersion更新
+PATCH  {{host}}/updateAppVersion/4
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+{
+  "mainAppVersion": "",
+  "rendererAppVersion": ""
+}
+
+###
+
+# changeOrder更新
+PATCH  {{host}}/changeOrder/4
+content-type: application/json
+Authorization:  Bearer {{token}}
+
+{
+  "order": 99
 }
 
 ###
