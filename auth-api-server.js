@@ -23,6 +23,8 @@ const ACCESS_LOG_STREAM = rfs('access.log', {
 });
 const TIMEZONE = 'Asia/Tokyo';
 
+const unauthorizedStatus = 401;
+
 //JSON Serverで、利用するJSONファイルを設定
 const server = jsonServer.create();
 const router = jsonServer.router('./DB.json');
@@ -68,15 +70,39 @@ const verifyToken = (token) =>
 const isAuth = ({ username, password }) =>
   SETTINGS.users.findIndex((user) => user.username === username && user.password === password) !== -1;
 
+const authenticate = async (req) => {
+  //認証ヘッダー形式検証
+  if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
+    return false;
+  }
+
+  //認証トークンの検証
+  try {
+    await verifyToken(req.headers.authorization.split(' ')[1]);
+  } catch (err) {
+    //失効している認証トークン
+    return false;
+  }
+
+  return true;
+};
+
+server.use(
+  jsonServer.rewriter({
+    '/healthCheck/:id': '/userList/:id',
+    '/updateAppVersion/:id': '/userList/:id',
+    '/changeOrder/:id': '/userList/:id',
+  })
+);
+
 //ログインRouter
 server.post('/auth/login', (req, res) => {
   const { username, password } = req.body;
 
   //ログイン検証
   if (isAuth({ username, password }) === false) {
-    const status = 401;
     const message = 'Error in authorization';
-    res.status(status).json({ status, message });
+    res.status(unauthorizedStatus).json({ status: unauthorizedStatus, message });
     return;
   }
 
@@ -87,61 +113,50 @@ server.post('/auth/login', (req, res) => {
 
 //認証が必要なRouter(ログイン以外全て)
 server.use(/^(?!\/auth).*$/, async (req, res, next) => {
-  //認証ヘッダー形式検証
-  if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
-    const status = 401;
+  if ((await authenticate(req)) === false) {
     const message = 'Error in authorization';
-    res.status(status).json({ status, message });
+    res.status(unauthorizedStatus).json({ status: unauthorizedStatus, message });
     return;
   }
 
-  //認証トークンの検証
-  try {
-    await verifyToken(req.headers.authorization.split(' ')[1]);
-  } catch (err) {
-    //失効している認証トークン
-    const status = 401;
-    const message = 'Error in authorization';
-    res.status(status).json({ status, message });
-    return;
-  }
-
-  if (req.baseUrl.includes('/userList')) {
+  if (/^\/healthCheck\/([0-9][0-9]*)$/g.test(req.originalUrl)) {
     let nowDate;
     switch (req.method) {
-      // ユーザ追加
+      case 'PATCH':
+        nowDate = formatDate(new Date());
+        req.body['healthCheckAt'] = nowDate;
+        break;
+    }
+
+    return next();
+  }
+
+  if (req.originalUrl === '/userList') {
+    let nowDate;
+    switch (req.method) {
       case 'POST':
         nowDate = formatDate(new Date());
         req.body['updatedAt'] = nowDate;
         req.body['healthCheckAt'] = nowDate;
         break;
-
-      case 'PATCH':
-        nowDate = formatDate(new Date());
-        // healthCheckAt定期送信
-        if (req.body.hasOwnProperty('healthCheckAt') === true) {
-          req.body['healthCheckAt'] = nowDate;
-          break;
-        }
-        /**
-         * アプリケーションバージョンの更新
-         * updatedAtは更新しない
-         */
-        if (req.body.hasOwnProperty('status') === false && req.body.hasOwnProperty('version') === true) {
-          req.body['healthCheckAt'] = nowDate;
-          break;
-        }
-        // ユーザ情報更新
-        if (req.body.hasOwnProperty('order') === false) {
-          req.body['updatedAt'] = nowDate;
-          break;
-        }
-      default:
-        break;
     }
+
+    return next();
   }
 
-  next();
+  if (/^\/userList\/([0-9][0-9]*)$/g.test(req.originalUrl)) {
+    let nowDate;
+    switch (req.method) {
+      case 'PATCH':
+        nowDate = formatDate(new Date());
+        req.body['updatedAt'] = nowDate;
+        break;
+    }
+
+    return next();
+  }
+
+  return next();
 });
 
 //認証機能付きのREST APIサーバ起動
