@@ -156,6 +156,16 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
     return next();
   }
 
+  if (req.originalUrl === '/getCurrentTime') {
+    switch (req.method) {
+      case 'GET':
+        res.json({ currentTime: formatDate(new Date()) });
+        break;
+    }
+
+    return;
+  }
+
   return next();
 });
 
