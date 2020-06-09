@@ -93,14 +93,14 @@ Authorization:  Bearer {{token}}
 
 ###
 
-# お知らせ情報取得
+# アプリ情報取得
 GET  {{host}}/appInfo
 content-type: application/json
 Authorization:  Bearer {{token}}
 
 ###
 
-# お知らせ情報更新
+# アプリ情報更新
 PATCH   {{host}}/appInfo
 content-type: application/json
 Authorization:  Bearer {{token}}
