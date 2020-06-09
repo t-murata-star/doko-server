@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const morgan = require('morgan');
 const path = require('path');
 const rfs = require('rotating-file-stream');
-const moment = require('moment-timezone');
+const momentTz = require('moment-timezone');
 
 // 設定ファイル読み込み
 const SETTINGS = JSON.parse(fs.readFileSync('./settings.json', 'UTF-8'));
@@ -41,7 +41,7 @@ const CUSTOM_TOKEN =
   ':custom_token,":remote-addr",":remote-user",":method",":url","HTTP/:http-version",":status",":referrer",":user-agent"';
 
 morgan.token('custom_token', (req, res) => {
-  const return_log = `${moment().tz(TIMEZONE).format()},${req.body['id'] || '"-"'},"${req.body['name'] || '-'}","${
+  const return_log = `${momentTz().tz(TIMEZONE).format()},${req.body['id'] || '"-"'},"${req.body['name'] || '-'}","${
     req.body['status'] || '-'
   }"`;
   return return_log;
@@ -120,11 +120,11 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
   }
 
   if (/^\/healthCheck\/([0-9][0-9]*)$/g.test(req.originalUrl)) {
-    let nowDate;
+    let currentTime;
     switch (req.method) {
       case 'PATCH':
-        nowDate = formatDate(new Date());
-        req.body['healthCheckAt'] = nowDate;
+        currentTime = getCurrentTime();
+        req.body['healthCheckAt'] = currentTime;
         break;
     }
 
@@ -132,12 +132,12 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
   }
 
   if (req.originalUrl === '/userList') {
-    let nowDate;
+    let currentTime;
     switch (req.method) {
       case 'POST':
-        nowDate = formatDate(new Date());
-        req.body['updatedAt'] = nowDate;
-        req.body['healthCheckAt'] = nowDate;
+        currentTime = getCurrentTime();
+        req.body['updatedAt'] = currentTime;
+        req.body['healthCheckAt'] = currentTime;
         break;
     }
 
@@ -145,11 +145,11 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
   }
 
   if (/^\/userList\/([0-9][0-9]*)$/g.test(req.originalUrl)) {
-    let nowDate;
+    let currentTime;
     switch (req.method) {
       case 'PATCH':
-        nowDate = formatDate(new Date());
-        req.body['updatedAt'] = nowDate;
+        currentTime = getCurrentTime();
+        req.body['updatedAt'] = currentTime;
         break;
     }
 
@@ -157,9 +157,11 @@ server.use(/^(?!\/auth).*$/, async (req, res, next) => {
   }
 
   if (req.originalUrl === '/getCurrentTime') {
+    let currentTime;
     switch (req.method) {
       case 'GET':
-        res.json({ currentTime: formatDate(new Date()) });
+        currentTime = getCurrentTime();
+        res.json({ currentTime });
         break;
     }
 
@@ -175,16 +177,7 @@ server.listen(3001, () => {
   console.log('Run Auth API Server');
 });
 
-formatDate = (date) => {
-  format = 'YYYY-MM-DD hh:mm:ss.SSS';
-  format = format.replace(/YYYY/g, date.getFullYear());
-  format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
-  format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
-  format = format.replace(/hh/g, ('0' + date.getHours()).slice(-2));
-  format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
-  format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
-  const milliSeconds = ('00' + date.getMilliseconds()).slice(-3);
-  const length = format.match(/S/g).length;
-  for (let i = 0; i < length; i++) format = format.replace(/S/, milliSeconds.substring(i, i + 1));
-  return format;
+// ISO 8501形式のJST 日付を取得
+getCurrentTime = () => {
+  return momentTz().format();
 };
