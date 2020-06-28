@@ -107,11 +107,11 @@ Authorization:  Bearer {{token}}
 
 {
   "main": {
-    "latestVersion": "3.1.0",
+    "latestVersion": "3.2.0",
     "updatedContents": ""
   },
   "renderer": {
-    "latestVersion": "3.1.0a",
+    "latestVersion": "3.2.0",
     "updatedContents": ""
   },
   "displayTimeOfCompanyInfo": {
