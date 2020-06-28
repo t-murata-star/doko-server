@@ -114,7 +114,7 @@ Authorization:  Bearer {{token}}
     "latestVersion": "3.1.0a",
     "updatedContents": ""
   },
-  "operatingTimeOfCompanyInfo": {
+  "displayTimeOfCompanyInfo": {
     "start": "08:00",
     "end": "22:00"
   }
